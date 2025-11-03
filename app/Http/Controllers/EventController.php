@@ -66,23 +66,22 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'date' => 'required',
-            'place' => 'required',
-            'event_type' => 'required',
+            'tanggal_reservasi' => 'required',
+            'ruangan' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_akhir' => 'required',
+            'kontak' => 'required',
+            'tipe_reservasi' => 'required',
             'status' => 'required',
         ]);
 
-        $path = $request->file('image')->store('public/images');
         $event = new Event;
-        $event->title = $request->title;
-        $event->description = $request->description;
-        $event->date = $request->date;
-        $event->place = $request->place;
-        $event->event_type = $request->event_type;
-        $event->image = $path;
+        $event->tanggal_reservasi = $request->tanggal_reservasi;
+        $event->ruangan = $request->ruangan;
+        $event->waktu_mulai = $request->waktu_mulai;
+        $event->waktu_akhir = $request->waktu_akhir;
+        $event->kontak = $request->kontak;
+        $event->tipe_reservasi = $request->tipe_reservasi;
         $event->status = $request->status;
         $event->save();
         return redirect()->route('events.index')
@@ -121,27 +120,22 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'date' => 'required',
-            'place' => 'required',
-            'event_type' => 'required',
+            'tanggal_reservasi' => 'required',
+            'ruangan' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_akhir' => 'required',
+            'kontak' => 'required',
+            'tipe_reservasi' => 'required',
             'status' => 'required',
         ]);
         
         $event = Event::find($id);
-        if($request->hasFile('image')){
-            $request->validate([
-              'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            ]);
-            $path = $request->file('image')->store('public/images');
-            $event->image = $path;
-        }
-        $event->title = $request->title;
-        $event->description = $request->description;
-        $event->date = $request->date;
-        $event->place = $request->place;
-        $event->event_type = $request->event_type;
+        $event->tanggal_reservasi = $request->tanggal_reservasi;
+        $event->ruangan = $request->ruangan;
+        $event->waktu_mulai = $request->waktu_mulai;
+        $event->waktu_akhir = $request->waktu_akhir;
+        $event->kontak = $request->kontak;
+        $event->tipe_reservasi = $request->tipe_reservasi;
         $event->status = $request->status;
         $event->save();
     

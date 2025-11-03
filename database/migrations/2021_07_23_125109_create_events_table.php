@@ -15,12 +15,12 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->longText('description')->nullable();
-            $table->date('date');
-            $table->string('place');
-            $table->string('image');
-            $table->string('event_type');
+            $table->date('tanggal_reservasi');
+            $table->string('ruangan');
+            $table->time('waktu_mulai');
+            $table->time('waktu_akhir');
+            $table->string('kontak');
+            $table->string('tipe_reservasi');
             $table->boolean('status')->default(0);
             $table->timestamps();
             $table->softDeletes();

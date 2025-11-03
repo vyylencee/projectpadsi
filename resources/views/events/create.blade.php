@@ -4,13 +4,11 @@
 <div class="row">
    <div class="col-lg-12 margin-tb">
       <div class="pull-left mb-2">
-         <h2>Add Event</h2>
-      </div>
-      <div class="pull-right">
-         <a class="btn btn-primary" href="{{ route('events.index') }}"> Back</a>
+         <h2>Formulir Tambah Reservasi</h2>
       </div>
    </div>
 </div>
+
 @if(session('status'))
 <div class="alert alert-success mb-1 mt-1">
    {{ session('status') }}
@@ -19,57 +17,77 @@
 <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
    @csrf
    <div class="row">
+      <!-- TANGGAL RESERVASI -->
       <div class="col-xs-12 col-sm-12 col-md-12">
          <div class="form-group">
-            <strong>Event Title:</strong>
-            <input type="text" name="title" class="form-control" placeholder="Event Title">
-            @error('title')
-            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-            @enderror
-         </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Event Description:</strong>
-            <textarea class="form-control" style="height:150px" name="description" placeholder="Event Description"></textarea>
-            @error('description')
-            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-            @enderror
-         </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Event Date:</strong>
-            <input class="date form-control" type="text" name="date" placeholder="Event Date">
+            <strong>Tanggal Reservasi:</strong>
+            <input class="date form-control" type="date" name="tanggal_reservasi" placeholder="Tanggal Reservasi">
             @error('date')
             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
             @enderror
          </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12">
+
+      <!-- RUANGAN -->
+       <div class="col-xs-12 col-sm-12 col-md-12">
          <div class="form-group">
-            <strong>Event Place:</strong>
-            <input type="text" name="place" class="form-control" placeholder="Event Place">
-            @error('place')
-            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-            @enderror
-         </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Event Type:</strong>
-            <select class="form-control" name="event_type">
-               <option value="free">Free</option>
-               <option value="paid">Paid</option>
+            <strong>Ruangan:</strong>
+            <select class="form-control" name="ruangan">
+               <option value="garden">Garden Pohon Sakura Lantai 1</option>
+               <option value="meja1">Meja Lantai 1</option>
+               <option value="meja2">Meja Lantai 2</option>
+               <option value="tatamiac">Tatami AC Lantai 2</option>
+               <option value="tataminac">Tatami Non-AC Lantai 2</option>
+               <option value="teras">Teras Outdoor Lantai 2</option>
             </select>
             @error('event_type')
             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
             @enderror
          </div>
       </div>
+
+      <!-- WAKTU MULAI -->
+       <div class="col-xs-12 col-sm-12 col-md-12">
+         <div class="form-group">
+            <strong>Waktu Mulai:</strong>
+            <input type="Time" name="waktu_mulai" class="form-control" placeholder="Waktu Mulai">
+         </div>
+      </div>
+
+      <!-- WAKTU SELESAI -->
       <div class="col-xs-12 col-sm-12 col-md-12">
          <div class="form-group">
-            <strong>Event Status:</strong>
+            <strong>Waktu Selesai:</strong>
+            <input type="Time" name="waktu_akhir" class="form-control" placeholder="Waktu Selesai">
+         </div>
+      </div>
+
+      <!-- KONTAK -->
+      <div class="col-xs-12 col-sm-12 col-md-12">
+         <div class="form-group">
+            <strong>Kontak:</strong>
+            <input type="text" name="kontak" class="form-control" placeholder="Kontak">
+         </div>
+      </div>
+
+      <!-- TIPE RESERVASI -->
+      <div class="col-xs-12 col-sm-12 col-md-12">
+         <div class="form-group">
+            <strong>Tipe Reservasi</strong>
+            <select class="form-control" name="tipe_reservasi">
+               <option value="private">Non-Private</option>
+               <option value="non-private">Private</option>
+            </select>
+            @error('event_type')
+            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+            @enderror
+         </div>
+      </div>
+
+      <!-- STATUS -->
+      <div class="col-xs-12 col-sm-12 col-md-12">
+         <div class="form-group">
+            <strong>Status:</strong>
             <select class="form-control" name="status">
                <option value="1">Active</option>
                <option value="0">Inactive</option>
@@ -79,16 +97,13 @@
             @enderror
          </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Event Image:</strong>
-            <input type="file" name="image" class="form-control" placeholder="Event Title">
-            @error('image')
-            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-            @enderror
+
+      <div class="col-12 mt-3">
+         <div class="d-flex justify-content-end gap-2">
+            <a class="btn btn-secondary mr-3" href="{{ route('events.index') }}">Batal</a>
+            <button type="submit" class="btn btn-primary">Tambah</button>
          </div>
       </div>
-      <button type="submit" class="btn btn-primary ml-3">Submit</button>
    </div>
 </form>
 @endsection
