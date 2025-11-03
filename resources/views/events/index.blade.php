@@ -40,11 +40,12 @@
    <tr>
       <td>{{ $event->id }}</td>
       <td>{{ $event->tanggal_reservasi }}</td>
-      <td>{{ $event->ruangan }}</td>
+      <td>{{ $event->ruangan_nama }}</td>
       <td>{{ $event->waktu_mulai }}</td>
       <td>{{ $event->waktu_akhir }}</td>
       <td>
          <form action="{{ route('events.destroy',$event->id) }}" method="POST">
+            <a class="btn btn-secondary" href="{{ route('events.show',$event->id) }}">Show</a>
             <a class="btn btn-primary" href="{{ route('events.edit',$event->id) }}">Edit</a>
             @csrf
             @method('DELETE')

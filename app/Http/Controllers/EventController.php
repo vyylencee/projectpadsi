@@ -96,7 +96,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return view('events.index',compact('event'));
+        return view('events.show',compact('event'));
     } 
      
     /**
