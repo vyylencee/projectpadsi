@@ -101,7 +101,7 @@
       <div class="col-12 mt-3">
          <div class="d-flex justify-content-end gap-2">
             <a class="btn btn-secondary mr-3" href="{{ route('events.index') }}">Batal</a>
-            <button type="submit" class="btn btn-primary">Tambah</button>
+            <button type="submit" class="btn btn-primary" href="{{ route('events.index') }}">Tambah</button>
          </div>
       </div>
    </div>

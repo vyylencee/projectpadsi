@@ -19,7 +19,7 @@
          <ul class="nav navbar-nav w-100"
             style="color: white; font-family: 'Gabarito', sans-serif; font-size: 16px; font-weight: 600; margin-top: 0;">
             <li class="nav-item mb-2" style="border-bottom: 1px solid #fff;">
-               <a class="nav-link text-white" href="{{ url('/') }}">Beranda</a>
+               <a class="nav-link text-white" href="{{ route('dashboard') }}">Beranda</a>
             </li>
             <li class="nav-item mb-2" style="border-bottom: 1px solid #fff;">
                <a class="nav-link text-white" href="{{ route('events.index') }}">Reservasi</a>
@@ -36,12 +36,11 @@
 
       <!-- Page Content -->
       <div id="content" class="flex-grow-1 p-4" style="background-color: #D6EFFF !important; margin-left: 250px;">
-         <div class="container-fluid">
-            <span class="navbar-text mb-4" style="font: Gabarito; font-size: 20px; font-weight: 600; font-color: white;">Selamat Datang, Admin!</span>
-         </div>
          @yield('content')
       </div>
    </div>
+   
+
 
       <!-- jQuery CDN - Slim version (=without AJAX) -->
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
