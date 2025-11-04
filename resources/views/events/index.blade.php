@@ -34,6 +34,7 @@
       <th>Ruangan</th>
       <th>Waktu Mulai</th>
       <th>Waktu Berakhir</th>
+      <th>Status</th>
       <th>Aksi</th>
    </tr>
    @foreach ($events as $event)
@@ -43,6 +44,7 @@
       <td>{{ $event->ruangan_nama }}</td>
       <td>{{ $event->waktu_mulai }}</td>
       <td>{{ $event->waktu_akhir }}</td>
+      <td>{{ $event->status_reservasi }}</td>
       <td>
          <form action="{{ route('events.destroy',$event->id) }}" method="POST">
             <a class="btn btn-secondary" href="{{ route('events.show',$event->id) }}">Show</a>

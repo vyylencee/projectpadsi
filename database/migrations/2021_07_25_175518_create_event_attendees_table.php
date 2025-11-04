@@ -16,13 +16,7 @@ class CreateEventAttendeesTable extends Migration
         Schema::create('event_attendees', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('title');
-            $table->string('event_type');
-            $table->string('email');
             $table->string('phone');
-            $table->longText('description');
-            $table->timestamps();
-            $table->softDeletes();
         });
     }
 

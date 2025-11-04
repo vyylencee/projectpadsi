@@ -50,7 +50,7 @@
        <div class="col-xs-12 col-sm-12 col-md-12">
          <div class="form-group">
             <strong>Waktu Mulai:</strong>
-            <input type="Time" name="waktu_mulai" class="form-control" placeholder="Waktu Mulai">
+            <input type="time" name="waktu_mulai" class="form-control">
          </div>
       </div>
 
@@ -58,7 +58,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12">
          <div class="form-group">
             <strong>Waktu Selesai:</strong>
-            <input type="Time" name="waktu_akhir" class="form-control" placeholder="Waktu Selesai">
+            <input type="time" name="waktu_akhir" class="form-control">
          </div>
       </div>
 

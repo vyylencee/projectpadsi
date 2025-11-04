@@ -66,7 +66,7 @@
          <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                <strong>Status:</strong>
-               <span class="detail-label">{{ $event->status }}<span>
+               <span class="detail-label">{{ $event->status_reservasi }}<span>
             </div>
          </div>
 

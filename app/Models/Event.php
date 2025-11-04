@@ -3,11 +3,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 class Event extends Model
 {
     use HasFactory;
     
+    public static $statusOptions = [
+        '1'       => 'Active',
+        '0'        => 'Inactive',
+    ];
+
     public static $ruanganOptions = [
         'garden'       => 'Garden Pohon Sakura Lantai 1',
         'meja1'        => 'Meja Lantai 1',
@@ -20,6 +24,11 @@ class Event extends Model
     public function getRuanganNamaAttribute()
     {
         return self::$ruanganOptions[$this->ruangan] ?? $this->ruangan;
+    }
+
+    public function getStatusReservasiAttribute()
+    {
+        return self::$statusOptions[$this->status] ?? $this->status;
     }
 
     protected $fillable = [
