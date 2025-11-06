@@ -25,7 +25,7 @@
                <a class="nav-link text-white" href="{{ route('events.index') }}">Reservasi</a>
             </li>
             <li class="nav-item mb-2" style="border-bottom: 1px solid #fff;">
-               <a class="nav-link text-white" href="#">Laporan</a>
+               <a class="nav-link text-white" href="{{ route('report.index') }}">Laporan</a>
             </li>
             <li class="nav-item mb-2">
                <a class="nav-link text-danger fw-bold" href="{{ route('signout') }}">Logout</a>

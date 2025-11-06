@@ -36,6 +36,7 @@ Route::get('signout', [AdminController::class, 'signOut'])->name('signout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.index');
     Route::resource('events', EventController::class);
+    Route::get('/report', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
 });
 
 Route::post('event-attendies', [EventController::class, 'eventAttendies'])->name('event-attendies');
