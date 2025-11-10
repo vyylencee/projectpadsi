@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +33,14 @@ Route::post('admin-login', [AdminController::class, 'adminLogin'])->name('login.
 Route::get('registration', [AdminController::class, 'registration'])->name('register-user');
 Route::post('custom-registration', [AdminController::class, 'customRegistration'])->name('register.custom'); 
 Route::get('signout', [AdminController::class, 'signOut'])->name('signout');
+Route::get('/events/search', [EventController::class, 'search'])->name('events.search');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.index');
     Route::resource('events', EventController::class);
     Route::get('/report', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
+    
 });
 
 Route::post('event-attendies', [EventController::class, 'eventAttendies'])->name('event-attendies');

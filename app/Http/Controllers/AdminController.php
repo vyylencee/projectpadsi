@@ -27,7 +27,11 @@ class AdminController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials, $request->filled('remember'))) {$request->session()->regenerate();
             return redirect()->intended('dashboard.index')
-                        ->withSuccess('Signed in');
+                        ->with('success', 'Login Berhasil!');
+        } else {
+            return back()->withErrors([
+                'email' => 'Gagal Login! Username/Password Salah',
+            ]);
         }
   
         return redirect("login")->withSuccess('Login details are not valid');

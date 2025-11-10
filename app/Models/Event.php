@@ -31,6 +31,16 @@ class Event extends Model
         return self::$statusOptions[$this->status] ?? $this->status;
     }
 
+    public function getWaktuMulaiAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('H:i');
+    }
+
+    public function getWaktuSelesaiAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('H:i');
+    }
+
     protected $fillable = [
         'title', 'description','date','place','image','event_type','status'
     ];

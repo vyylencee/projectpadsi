@@ -18,54 +18,54 @@
       <div class="row" style="background-color: #fff; padding: 20px; border-radius: 10px;">
          <!-- TANGGAL RESERVASI -->
          <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-               <strong>Tanggal Reservasi:</strong>
+            <div class="mt-2 d-flex form-group justify-content-between">
+               <strong class="mt-2" style='width: 200px'>Tanggal Reservasi:</strong>
                <span class="detail-label">{{ $event->tanggal_reservasi }}<span>
             </div>
          </div>
 
          <!-- RUANGAN -->
          <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-               <strong>Ruangan:</strong>
-                <span class="detail-label">{{ $event->ruangan_nama }}<span>
+            <div class="d-flex form-group justify-content-between">
+               <strong class="mt-2" style='width: 200px'>Ruangan:</strong>
+               <span class="detail-label">{{ $event->ruangan_nama }}<span>
             </div>
          </div>
 
          <!-- WAKTU MULAI -->
          <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-               <strong>Waktu Mulai:</strong>
+            <div class="d-flex form-group justify-content-between">
+               <strong class="mt-2" style='width: 200px'>Waktu Mulai:</strong>
                <span class="detail-label">{{ $event->waktu_mulai }}<span>
             </div>
          </div>
 
          <!-- WAKTU SELESAI -->
          <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-               <strong>Waktu Selesai:</strong>
+            <div class="d-flex form-group justify-content-between">
+               <strong class="mt-2" style='width: 200px'>Waktu Selesai:</strong>
                <span class="detail-label">{{ $event->waktu_akhir }}<span>
             </div>
          </div>
 
          <!-- KONTAK -->
          <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-               <strong>Kontak:</strong>
+            <div class="d-flex form-group justify-content-between">
+               <strong class="mt-2" style='width: 200px'>Kontak:</strong>
                <<span class="detail-label">{{ $event->kontak }}<span>
             </div>
          </div>
         
          <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-               <strong>Tipe Reservasi:</strong>
+            <div class="d-flex form-group justify-content-between">
+               <strong class="mt-2" style='width: 200px'>Tipe Reservasi</strong>
                <span class="detail-label">{{ $event->tipe_reservasi }}<span>
             </div>
          </div>
 
          <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-               <strong>Status:</strong>
+            <div class="d-flex form-group justify-content-between">
+               <strong class="mt-2" style='width: 200px'>Status:</strong>
                <span class="detail-label">{{ $event->status_reservasi }}<span>
             </div>
          </div>

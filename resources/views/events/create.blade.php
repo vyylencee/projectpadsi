@@ -1,5 +1,6 @@
 @extends('dashboard')
 @section('content')
+
 <div class="container mt-2">
 <div class="row">
    <div class="col-lg-12 margin-tb">
@@ -19,8 +20,8 @@
    <div class="row">
       <!-- TANGGAL RESERVASI -->
       <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Tanggal Reservasi:</strong>
+         <div class="mt-2 d-flex form-group justify-content-between">
+            <strong class="mt-2" style='width: 200px'>Tanggal Reservasi:</strong>
             <input class="date form-control" type="date" name="tanggal_reservasi" placeholder="Tanggal Reservasi">
             @error('date')
             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -30,8 +31,8 @@
 
       <!-- RUANGAN -->
        <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Ruangan:</strong>
+         <div class="d-flex form-group justify-content-between">
+            <strong class="mt-2" style='width: 200px'>Ruangan:</strong>
             <select class="form-control" name="ruangan">
                <option value="garden">Garden Pohon Sakura Lantai 1</option>
                <option value="meja1">Meja Lantai 1</option>
@@ -48,32 +49,32 @@
 
       <!-- WAKTU MULAI -->
        <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Waktu Mulai:</strong>
+         <div class="d-flex form-group justify-content-between">
+            <strong class="mt-2" style='width: 200px'>Waktu Mulai:</strong>
             <input type="time" name="waktu_mulai" class="form-control">
          </div>
       </div>
 
       <!-- WAKTU SELESAI -->
       <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Waktu Selesai:</strong>
+         <div class="d-flex form-group justify-content-between">
+            <strong class="mt-2" style='width: 200px'>Waktu Selesai:</strong>
             <input type="time" name="waktu_akhir" class="form-control">
          </div>
       </div>
 
       <!-- KONTAK -->
       <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Kontak:</strong>
+         <div class="d-flex form-group justify-content-between">
+            <strong class="mt-2" style='width: 200px'>Kontak:</strong>
             <input type="text" name="kontak" class="form-control" placeholder="Kontak">
          </div>
       </div>
 
       <!-- TIPE RESERVASI -->
       <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Tipe Reservasi</strong>
+         <div class="d-flex form-group justify-content-between">
+            <strong class="mt-2" style='width: 200px'>Tipe Reservasi</strong>
             <select class="form-control" name="tipe_reservasi">
                <option value="private">Non-Private</option>
                <option value="non-private">Private</option>
@@ -86,8 +87,8 @@
 
       <!-- STATUS -->
       <div class="col-xs-12 col-sm-12 col-md-12">
-         <div class="form-group">
-            <strong>Status:</strong>
+         <div class="d-flex form-group justify-content-between">
+            <strong class="mt-2" style='width: 200px'>Status:</strong>
             <select class="form-control" name="status">
                <option value="1">Active</option>
                <option value="0">Inactive</option>

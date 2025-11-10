@@ -43,9 +43,10 @@ class EventController extends Controller
 
     public function index()
     {
-        $data['events'] = Event::orderBy('id','desc')->paginate(5);
+        $data['events'] = Event::orderBy('id','asc')->paginate(5);
         return view('events.index', $data);
     }
+
      
     /**
      * Show the form for creating a new resource.
@@ -78,8 +79,8 @@ class EventController extends Controller
         $event = new Event;
         $event->tanggal_reservasi = $request->tanggal_reservasi;
         $event->ruangan = $request->ruangan;
-        $event->waktu_mulai = $request->waktu_mulai;
-        $event->waktu_akhir = $request->waktu_akhir;
+        $event->waktu_mulai = Carbon::parse($request->waktu_mulai)->format('H:i');
+        $event->waktu_akhir = Carbon::parse($request->waktu_akhir)->format('H:i');
         $event->kontak = $request->kontak;
         $event->tipe_reservasi = $request->tipe_reservasi;
         $event->status = $request->status;
@@ -88,6 +89,20 @@ class EventController extends Controller
                         ->with('success','Event has been created successfully.');
     }
      
+        public function search(Request $request)
+    {
+        $search = $request->get('search');
+
+        $events = \App\Models\Event::query()
+            ->when($search, function ($query, $search) {
+                $query->where('id', 'like', "%{$search}%");
+            })
+            ->orderBy('id', 'asc')
+            ->paginate(5);
+
+        return view('events.table', compact('events'))->render();
+    }
+
     /**
      * Display the specified resource.
      *
@@ -132,8 +147,8 @@ class EventController extends Controller
         $event = Event::find($id);
         $event->tanggal_reservasi = $request->tanggal_reservasi;
         $event->ruangan = $request->ruangan;
-        $event->waktu_mulai = $request->waktu_mulai;
-        $event->waktu_akhir = $request->waktu_akhir;
+        $event->waktu_mulai = Carbon::parse($request->waktu_mulai)->format('H:i');
+        $event->waktu_akhir = Carbon::parse($request->waktu_akhir)->format('H:i');
         $event->kontak = $request->kontak;
         $event->tipe_reservasi = $request->tipe_reservasi;
         $event->status = $request->status;
@@ -161,6 +176,8 @@ class EventController extends Controller
         $data['events'] = Event::orderBy('id','desc')->where('status','1')->paginate(6);
         return view('event', $data);
     }
+
+    
     public function getPaymentStatus(Request $request)
     {        
         $payment_id = Session::get('paypal_payment_id');

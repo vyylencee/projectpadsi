@@ -20,25 +20,29 @@
     </style>
 </head>
 <body>
+    
     <div class="login-container" style="background-color: #D6EFFF; max-width: 400px; width: 100%; text-align: center; padding: 50px; border-radius: 10px; shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <h2 style="font-family: 'Playfair Display', sans-serif; margin-bottom: 25px; font-weight: bold; color: #000;">LOGIN</h2>
         <form method="POST" action="{{ route('login.custom') }}">
             @csrf
             <div class="mb-3" style="font-family: 'Fredoka', sans-serif; margin-bottom: 25px; font-weight: 700; color: #000;">
                 <input type="text" name="email" id="email" class="form-control" placeholder="Masukkan Email" required autofocus>
-                @if ($errors->has('email'))
-                    <span class="text-danger">{{ $errors->first('email') }}</span>
-                @endif
             </div>
-
+            
             <div class="mb-3" style="font-family: 'Fredoka', sans-serif; margin-bottom: 25px; font-weight: 700; color: #000;">
                 <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan Password" required>
-                @if ($errors->has('password'))
-                    <span class="text-danger">{{ $errors->first('password') }}</span>
-                @endif
             </div>
 
+            @if ($errors->has('email'))
+            <span class="text-danger" style='font-size: 14px;'>{{ $errors->first('email') }}</span>
+            @endif
+            @if ($errors->has('password'))
+            <span class="text-danger" style='font-size: 14px;'>{{ $errors->first('password') }}</span>
+            @endif
+            
             <button type="submit" class="mt-3 btn btn-primary" style="background-color: #fff; color: #000; padding: 10px 28px; font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; border-radius: 20px;">Login</button>
+            
+
         </form>
     </div>
     </body>

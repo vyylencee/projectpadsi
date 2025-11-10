@@ -4,6 +4,29 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $('#search').on('keyup', function(){
+        let query = $(this).val();
+
+        $.ajax({
+            url: "{{ route('events.search') }}",
+            type: "GET",
+            data: { search: query },
+            success: function(data){
+                $('#table-data').html(data);
+            },
+            error: function(xhr){
+                console.log("Terjadi error: ", xhr.responseText);
+            }
+        });
+    });
+});
+</script>
+
+
 
 <div class="container mt-2">
 <div class="row">
@@ -11,14 +34,21 @@
       <div class="pull-left mb-4">
          <h2>Kelola Reservasi</h2>
       </div>
-      <div class=" mb-2">
-         <a 
-            href="{{ route('events.create') }}" 
-            class="btn  align-items-center px-3 py-2"
-            style="background-color: #FFFFFF; border-radius: 50px; font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: semi-bold;">
-            <i class="bi bi-plus-circle mr-2"></i> 
-            Tambah Reservasi
-         </a>
+      <div class='d-flex justify-content-between'>
+         <div class="mb-2">
+            <input type="text" id="search" name="search" class='form=control px-3 py-2' placeholder="Cari...">
+         </div>
+
+         <div class="mb-2">
+            <a 
+               href="{{ route('events.create') }}" 
+               class="btn  align-items-center px-3 py-2"
+               style="background-color: #FFFFFF; border-radius: 50px; font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: semi-bold;">
+               <i class="bi bi-plus-circle mr-2"></i> 
+               Tambah Reservasi
+            </a>
+         </div>
+
       </div>
    </div>
 </div>
@@ -27,7 +57,7 @@
    <p>{{ $message }}</p>
 </div>
 @endif
-<table class="mt-3 table table-bordered text-center" style="background-color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-size: 14px;">
+<table id="table-data" class="mt-3 table table-bordered text-center" style="background-color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-size: 14px;">
    <tr>
       <th>ID Reservasi</th>
       <th>Tanggal Reservasi</th>
@@ -57,5 +87,8 @@
    </tr>
    @endforeach
 </table>
-{!! $events->links() !!}
+<div class="d-flex justify-content-center mt-3">
+    {{ $events->links('pagination::bootstrap-4') }}
+</div>
+
 @endsection
