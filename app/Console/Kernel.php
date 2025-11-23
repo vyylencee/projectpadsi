@@ -24,7 +24,20 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+    $schedule->call(function () {
+        \DB::table('events')
+            ->whereRaw("TIMESTAMP(tanggal_reservasi, waktu_akhir) < NOW()")
+            ->where('status_reservasi', 'On-Going')
+            ->where('tipe_reservasi', 'non-private')
+            ->update(['status_reservasi' => 'Completed']);
+
+        DB::table('events')
+            ->where('tipe_reservasi', 'private')
+            ->whereRaw("TIMESTAMP(tanggal_reservasi, waktu_akhir) < NOW()")
+            ->where('status_reservasi', 'On-Going')
+            ->where('tipe_reservasi', 'private')
+            ->update(['status_reservasi' => 'Pending']);
+        })->everyMinute();
     }
 
     /**
@@ -38,4 +51,5 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
 }

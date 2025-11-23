@@ -22,7 +22,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12">
          <div class="mt-2 d-flex form-group justify-content-between">
             <strong class="mt-2" style='width: 200px'>Tanggal Reservasi:</strong>
-            <input class="date form-control" type="date" name="tanggal_reservasi" placeholder="Tanggal Reservasi">
+            <input class="date form-control" type="date" name="tanggal_reservasi" placeholder="Tanggal Reservasi" min="{{ date('Y-m-d') }}"   required>
             @error('date')
             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
             @enderror
@@ -90,8 +90,9 @@
          <div class="d-flex form-group justify-content-between">
             <strong class="mt-2" style='width: 200px'>Status:</strong>
             <select class="form-control" name="status">
-               <option value="1">Active</option>
-               <option value="0">Inactive</option>
+               <option value="On-Going">On-Going</option>
+               <option value="Pending">Pending</option>
+               <option value="Completed">Completed</option>
             </select>
             @error('event_type')
             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

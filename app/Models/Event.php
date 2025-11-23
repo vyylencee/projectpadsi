@@ -8,8 +8,9 @@ class Event extends Model
     use HasFactory;
     
     public static $statusOptions = [
-        '1'       => 'Active',
-        '0'        => 'Inactive',
+        'On-Going'       => 'On-Going',
+        'Pending'        => 'Pending',
+        'Completed'        => 'Completed',
     ];
 
     public static $ruanganOptions = [

@@ -44,3 +44,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::post('event-attendies', [EventController::class, 'eventAttendies'])->name('event-attendies');
+Route::post('/upload-csv', [EventController::class, 'uploadCsv'])->name('reservasi.uploadCsv');
+

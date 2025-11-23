@@ -21,7 +21,7 @@
          <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="mt-2 d-flex form-group justify-content-between">
                <strong class="mt-2" style='width: 200px'>Tanggal Reservasi:</strong>
-               <input class="date form-control" type="date" value="{{ $event->tanggal_reservasi }}" name="tanggal_reservasi" placeholder="Tanggal Reservasi">
+               <input class="date form-control" type="date" value="{{ $event->tanggal_reservasi }}" name="tanggal_reservasi" placeholder="Tanggal Reservasi" min="{{ date('Y-m-d') }}"   required>
                @error('date')
                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                @enderror
@@ -74,7 +74,7 @@
             <div class="d-flex form-group justify-content-between">
                <strong class="mt-2" style='width: 200px'>Tipe Reservasi</strong>
                <select class="form-control" name="tipe_reservasi">
-               <option {{ $event->tipe_reservasi == 'non-private' ?'selected':'' }} value="non-private"> Non-Private </option>
+               <option {{ $event->tipe_reservasi == 'non-private' ?'selected':'' }} value="non-private"> Non-private </option>
                <option {{ $event->tipe_reservasi == 'private' ?'selected':'' }} value="private"> Private </option>
                </select>
                @error('event_type')
@@ -86,8 +86,9 @@
             <div class="d-flex form-group justify-content-between">
                <strong class="mt-2" style='width: 200px'>Status:</strong>
                <select class="form-control" name="status">
-               <option {{ $event->status == '1' ?'selected':'' }} value="1"> Active </option>
-               <option {{ $event->status == '0' ?'selected':'' }} value="0"> Inactive </option>
+               <option {{ $event->status_reservasi == 'On-Going' ?'selected':'' }} value="On-Going"> On-Going </option>
+               <option {{ $event->status_reservasi == 'Pending' ?'selected':'' }} value="Pending"> Pending </option>
+               <option {{ $event->status_reservasi == 'Completed' ?'selected':'' }} value="Completed"> Completed </option>
                </select>
                @error('event_type')
                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

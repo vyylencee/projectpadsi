@@ -177,6 +177,29 @@ class EventController extends Controller
         return view('event', $data);
     }
 
+    public function uploadCsv(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:csv,txt'
+    ]);
+
+    $file = $request->file('file');
+    $rows = array_map('str_getcsv', file($file));
+
+    foreach ($rows as $row) {
+        $id = $row[0];
+
+        DB::table('events')
+            ->where('id', $id)
+            ->update(['status' => 0]);
+    }
+
+    return response()->json([
+        'message' => 'File berhasil diproses!',
+    ]);
+}
+
+
     
     public function getPaymentStatus(Request $request)
     {        
