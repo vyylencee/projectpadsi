@@ -88,6 +88,8 @@ class EventController extends Controller
         return redirect()->route('events.index')
                         ->with('success','Event has been created successfully.');
     }
+
+
      
         public function search(Request $request)
     {

@@ -26,17 +26,16 @@ class Kernel extends ConsoleKernel
     {
     $schedule->call(function () {
         \DB::table('events')
+            ->where('tipe_reservasi', 'private')
             ->whereRaw("TIMESTAMP(tanggal_reservasi, waktu_akhir) < NOW()")
-            ->where('status_reservasi', 'On-Going')
-            ->where('tipe_reservasi', 'non-private')
-            ->update(['status_reservasi' => 'Completed']);
+            ->where('status', 'On-Going')
+            ->update(['status' => 'Pending']);
 
-        DB::table('events')
-            ->where('tipe_reservasi', 'private')
+        \DB::table('events')
+            ->where('tipe_reservasi', '!=', 'private')
             ->whereRaw("TIMESTAMP(tanggal_reservasi, waktu_akhir) < NOW()")
-            ->where('status_reservasi', 'On-Going')
-            ->where('tipe_reservasi', 'private')
-            ->update(['status_reservasi' => 'Pending']);
+            ->where('status', 'On-Going')
+            ->update(['status' => 'Completed']);
         })->everyMinute();
     }
 

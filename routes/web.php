@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,5 +45,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::post('event-attendies', [EventController::class, 'eventAttendies'])->name('event-attendies');
-Route::post('/upload-csv', [EventController::class, 'uploadCsv'])->name('reservasi.uploadCsv');
+Route::post('/upload-csv', [FileUploadController::class, 'upload'])->name('upload.csv');
 

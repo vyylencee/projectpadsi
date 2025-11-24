@@ -46,8 +46,11 @@ $(document).ready(function(){
                style="background-color: #FFFFFF; border-radius: 50px; font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: semi-bold;">
                   <i class="bi bi-upload mr-2"></i> Upload File
             </button>
-
-            <input type="file" id="csvFile" accept=".csv" class="d-none">
+            
+            <form action="{{ route('upload.csv') }}" method="POST" enctype="multipart/form-data" id="csvForm" class="d-none">
+               @csrf
+               <input type="file" name="file" id="csvFile" accept=".csv" >
+            </form>
 
             <a 
                href="{{ route('events.create') }}" 
@@ -111,12 +114,13 @@ $(document).ready(function(){
 
 <script>
 document.getElementById("uploadBtn").addEventListener("click", function () {
+    console.log("Tombol upload diklik");
     document.getElementById("csvFile").click();
 });
 
-document.getElementById("csvFile").addEventListener("change", function () {
-    var modal = new bootstrap.Modal(document.getElementById('uploadModal'));
-    modal.show();
+document.getElementById('csvFile').addEventListener('change', function () {
+    console.log("File dipilih, submit form...");
+    document.getElementById('csvForm').submit();
 });
 </script>
 
