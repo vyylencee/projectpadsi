@@ -14,11 +14,27 @@
     <table class="table table-bordered text-center" style="background-color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-size: 14px;">
         <tr>
             <th>ID Reservasi</th>
+            <th>ID Order</th>
             <th>Tanggal Reservasi</th>
             <th>Ruangan</th>
             <th>Waktu Mulai</th>
             <th>Waktu Berakhir</th>
+            <th>Tipe Reservasi</th>
+            <th>Status</th>
         </tr>
+
+        @foreach ($reports as $report)
+        <tr>
+            <td>{{ $report->id ?? '-' }}</td>
+            <td>{{ $report->id_order }}</td>
+            <td>{{ $report->tanggal_reservasi ?? '-'}}</td>
+            <td>{{ $report->ruangan ?? '-'}}</td>
+            <td>{{ $report->waktu_mulai ?? '-'}}</td>
+            <td>{{ $report->waktu_akhir ?? '-'}}</td>
+            <td>{{ $report->tipe_reservasi ?? '-'}}</td>
+            <td>{{ $report->status ?? '-'}}</td>
+        </tr>
+        @endforeach
     </table>
 </div>
 

@@ -37,12 +37,11 @@ class FileUploadController extends Controller
 private function processCsv($filePath)
 {
     $csv = array_map('str_getcsv', file($filePath));
-    $header = array_shift($csv); // header
+    $header = array_shift($csv);
 
     foreach ($csv as $row) {
         $data = array_combine($header, $row);
 
-        // Update reservasi berdasarkan CSV
         $reservation = Event::where('id', $data['id'])
             ->where('status', 'Pending')
             ->first();
@@ -56,6 +55,7 @@ private function processCsv($filePath)
                 'status' => 'Completed',
             ]);
         }
+
     }
 }
 
