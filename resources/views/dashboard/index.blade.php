@@ -1,8 +1,17 @@
 @extends('dashboard')
 @section('content')
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
 <div class="container-fluid">
-    <span class="navbar-text mb-2" style="font: Gabarito; font-size: 20px; font-weight: 600; font-color: white;">Selamat Datang, Admin!</span>
+    <span class="navbar-text mb-2" style="font: Gabarito; font-size: 20px; font-weight: 600;">Selamat Datang, Admin!</span>
+</div>
+
+<div class="container d-flex justify-content-end">
+    <span class="navbar-text p-2 mb-3 mt-2" style="background-color: #ffffff; font: Gabarito; font-size: 16px; font-weight: 600; border-radius: 15px;">
+    <i class="bi bi-calendar2-week ml-2 mr-2"></i>
+    {{ \Carbon\Carbon::now()->translatedFormat('d/m/Y') }}</span>
 </div>
 
 <div class="container">

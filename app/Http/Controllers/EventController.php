@@ -201,117 +201,39 @@ class EventController extends Controller
     ]);
 }
 
-
-    
-    public function getPaymentStatus(Request $request)
-    {        
-        $payment_id = Session::get('paypal_payment_id');
-
-        Session::forget('paypal_payment_id');
-        if (empty($request->input('PayerID')) || empty($request->input('token'))) {
-            \Session::put('error','Payment failed');
-            return Redirect::route('home');
-        }
-        $payment = Payment::get($payment_id, $this->_api_context);        
-        $execution = new PaymentExecution();
-        $execution->setPayerId($request->input('PayerID'));        
-        $result = $payment->execute($execution, $this->_api_context);
-        
-        if ($result->getState() == 'approved') {         
-            \Session::put('success','Payment success !!');
-            return Redirect::route('home');
-        }
-
-        \Session::put('error','Payment failed !!');
-		return Redirect::route('home');
-    }
-    
-    public function eventAttendies(Request $request)
+    public function report()
     {
-        $event_type = $request->event_type;
-       
-        if($event_type == 'free'){
-            $event = new EventAttendies;
-            $event->title = $request->title;
-            $event->event_type = $request->event_type;
-            $event->name = $request->name;
-            $event->email = $request->email;
-            $event->phone = $request->phone;
-            $event->description = $request->description;
-            $event->save();
-            \Session::put('success','Event successfully submited !!');
-            return Redirect::route('home');             
-        }
-        else {
-            $price = 10;
-            $payer = new Payer();
-            $payer->setPaymentMethod('paypal');
-    
-            $item_1 = new Item();
-    
-            $item_1->setName('Product Name')
-                ->setCurrency('USD')
-                ->setQuantity(1)
-                ->setPrice($price);
-    
-            $item_list = new ItemList();
-            $item_list->setItems(array($item_1));
-    
-            $amount = new Amount();
-            $amount->setCurrency('USD')
-                ->setTotal($price);
-    
-            $transaction = new Transaction();
-            $transaction->setAmount($amount)
-                ->setItemList($item_list)
-                ->setDescription($request->title);
-    
-            $redirect_urls = new RedirectUrls();
-            $redirect_urls->setReturnUrl(URL::route('status'))
-                ->setCancelUrl(URL::route('status'));
-    
-            $payment = new Payment();
-            $payment->setIntent('Sale')
-                ->setPayer($payer)
-                ->setRedirectUrls($redirect_urls)
-                ->setTransactions(array($transaction)); 
-            //  storing user information in database
-            $event = new EventAttendies;
-            $event->title = $request->title;
-            $event->event_type = $request->event_type;
-            $event->name = $request->name;
-            $event->email = $request->email;
-            $event->phone = $request->phone;
-            $event->description = $request->description;
-            $event->save();
-            //  
-            try {
-                $payment->create($this->_api_context);
-            } catch (\PayPal\Exception\PPConnectionException $ex) {
-                if (\Config::get('app.debug')) {
-                    \Session::put('error','Connection timeout');
-                    return Redirect::route('home');                
-                } else {
-                    \Session::put('error','Some error occur, sorry for inconvenient');
-                    return Redirect::route('home');                
+        return $this->hasOne(Report::class, 'id_reservasi', 'id');
+    }
+
+    protected static function booted()
+    {
+        static::updated(function ($event) {
+            if (
+                $event->wasChanged('status') &&
+                $event->status === 'Completed' &&  // pastikan huruf besar sesuai
+                $event->report()->doesntExist()
+            ) {
+                // Pastikan reservation_id ada
+                if (!$event->reservation_id) {
+                    Log::warning("Event ID {$event->id} tidak punya reservation_id");
+                    return;
                 }
+
+                Report::create([
+                    'reservation_id'     => $event->reservation_id,
+                    'id_order'           => $event->id_order,
+                    'tanggal_reservasi'  => $event->tanggal,
+                    'ruangan'            => $event->ruangan,
+                    'waktu_mulai'        => $event->waktu_mulai,
+                    'waktu_akhir'        => $event->waktu_akhir,
+                    'tipe_reservasi'     => $event->tipe_reservasi ?? 'private',
+                    'status'             => 'Completed',
+                    'payment_status'     => $event->payment_status,
+                ]);
+
+                Log::info("Report otomatis dibuat untuk event #{$event->id}");
             }
-            
-            foreach($payment->getLinks() as $link) {
-                if($link->getRel() == 'approval_url') {
-                    $redirect_url = $link->getHref();
-                    break;
-                }
-            }
-            
-            Session::put('paypal_payment_id', $payment->getId());
-    
-            if(isset($redirect_url)) {            
-                return Redirect::away($redirect_url);
-            }
-    
-            \Session::put('error','Unknown error occurred');
-            return Redirect::route('home');
-        }
+        });
     }
 }

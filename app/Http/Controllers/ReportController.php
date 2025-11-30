@@ -4,37 +4,63 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Report;
-use App\Models\Event;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
-    
-    public function createFromEvent(Event $event)
+    // 1. HALAMAN UTAMA + FILTER
+    public function index(Request $request)
     {
-        \DB::table('report')->insert([
-            'id' => $event->id,
-            'id_order' => $event->id_order,
-            'ruangan' => $event->ruangan,
-            'tanggal_reservasi' => $event->tanggal_reservasi,
-            'waktu_mulai' => $event->waktu_mulai,
-            'waktu_akhir' => $event->waktu_akhir,
-            'tipe_reservasi' => $event->tipe_reservasi,
-            'status' => $event->status,
-            'payment_status' => $event->payment_status,
-            'created_at' => now(),
-            'updated_at' => now(),
+        $bulan = $request->get('bulan', date('m'));
+        $tahun = $request->get('tahun', date('Y'));
+
+        $reports = Report::whereMonth('tanggal_reservasi', $bulan)
+                         ->whereYear('tanggal_reservasi', $tahun)
+                         ->orderBy('tanggal_reservasi', 'asc')
+                         ->get();
+
+        $totalPendapatan = $reports->sum('total_payment');
+
+        $daftarTahun = range(date('Y'), date('Y') - 10);
+
+        $namaBulan = \Carbon\Carbon::create()->month($bulan)->translatedFormat('F');
+
+        return view('report.index', compact(
+            'reports', 'bulan', 'tahun', 'daftarTahun', 'totalPendapatan', 'namaBulan'
+        ));
+    }
+
+    public function filter(Request $request)
+    {
+        $request->validate([
+            'bulan' => 'required|in:01,02,03,04,05,06,07,08,09,10,11,12',
+            'tahun' => 'required|integer|min:2000|max:' . date('Y')
+        ]);
+
+        return redirect()->route('reports.index', [
+            'bulan' => $request->bulan,
+            'tahun' => $request->tahun
         ]);
     }
-    public function index()
+
+    public function pdf(Request $request)
     {
-        $reports = \DB::table('report')
-        ->leftJoin('events', 'events.id', '=', 'report.id')
-        ->select('report.*', 'events.ruangan', 'events.tanggal_reservasi')
-        ->get();
+        
+        $bulan = $request->get('bulan', date('m'));
+        $tahun = $request->get('tahun', date('Y'));
 
+        $reports = Report::whereMonth('tanggal_reservasi', $bulan)
+                         ->whereYear('tanggal_reservasi', $tahun)
+                         ->orderBy('tanggal_reservasi')
+                         ->get();
 
-        $reports = Report::orderBy('id', 'DESC')->paginate(10);
-        return view('report.index', compact('reports'));
+        $namaBulan = \Carbon\Carbon::create()->month($bulan)->translatedFormat('F');
+
+        $pdf = Pdf::loadView('report.pdf', compact(
+            'reports', 'namaBulan', 'tahun'
+        ))->setPaper('a4', 'landscape');
+
+        $namaFile = "Laporan_SIRFU_{$namaBulan}_{$tahun}.pdf";
+        return $pdf->stream($namaFile);
     }
-
 }

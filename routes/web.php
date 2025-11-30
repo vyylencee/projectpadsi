@@ -46,4 +46,5 @@ Route::middleware(['auth'])->group(function () {
 
 Route::post('event-attendies', [EventController::class, 'eventAttendies'])->name('event-attendies');
 Route::post('/upload-csv', [FileUploadController::class, 'upload'])->name('upload.csv');
-
+Route::post('/report/filter', [App\Http\Controllers\ReportController::class, 'filter'])->name('report.filter');
+Route::get('/report/pdf', [App\Http\Controllers\ReportController::class, 'pdf'])->name('report.pdf');

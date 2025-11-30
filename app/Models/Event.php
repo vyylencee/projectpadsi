@@ -43,6 +43,18 @@ class Event extends Model
     }
 
     protected $fillable = [
-        'title', 'description','date','place','image','event_type','status'
+        'id',
+        'id_order',
+        'minimum_order',
+        'total_payment',
+        'payment_status',
+        'status',
+        'tanggal_reservasi',
+        'ruangan',
+        'waktu_mulai',
+        'waktu_akhir',
+        'tipe_reservasi',
+        'kontak'
+
     ];
 }

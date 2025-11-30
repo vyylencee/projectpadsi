@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use App\Models\Event;
+use App\Observers\EventObserver;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -23,8 +25,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    // app/Providers/AppServiceProvider.php
+
+
     public function boot()
     {
-        //
+        Event::observe(EventObserver::class);
     }
 }

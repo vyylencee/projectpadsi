@@ -11,8 +11,31 @@
          <h2>Kelola Laporan</h2>
     </div>
 
+    <div class="d-flex justify-content-end mb-3">
+            <button 
+               type="button"
+               id="uploadBtn"
+               class="btn align-items-center px-3 py-2 mr-2"
+               style="background-color: #FFFFFF; border-radius: 50px; font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: semi-bold;">
+                  <i class="bi bi-funnel mr-2"></i> Filter Laporan
+            </button>
+            
+
+            <a 
+               onclick="forceDownloadPDF()"               
+               download
+               class="btn  align-items-center px-3 py-2"
+               style="background-color: #FFFFFF; border-radius: 50px; font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: semi-bold;">
+               
+               <i class="bi bi-file-earmark-arrow-down mr-2"></i> 
+               Unduh Laporan Bulanan
+            </a>
+        </div>    
+        
+
     <table class="table table-bordered text-center" style="background-color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-size: 14px;">
         <tr>
+            <th>ID Laporan</th>
             <th>ID Reservasi</th>
             <th>ID Order</th>
             <th>Tanggal Reservasi</th>
@@ -21,23 +44,37 @@
             <th>Waktu Berakhir</th>
             <th>Tipe Reservasi</th>
             <th>Status</th>
+            <th>Status Pembayaran</th>
         </tr>
 
         @foreach ($reports as $report)
         <tr>
-            <td>{{ $report->id ?? '-' }}</td>
+            <td>{{ $report->id_laporan ?? '-' }}</td>
+            <td>{{ $report->id_reservasi ?? '-' }}</td>
             <td>{{ $report->id_order }}</td>
             <td>{{ $report->tanggal_reservasi ?? '-'}}</td>
-            <td>{{ $report->ruangan ?? '-'}}</td>
+            <td>{{ $report->ruangan_nama ?? '-'}}</td>
             <td>{{ $report->waktu_mulai ?? '-'}}</td>
             <td>{{ $report->waktu_akhir ?? '-'}}</td>
             <td>{{ $report->tipe_reservasi ?? '-'}}</td>
             <td>{{ $report->status ?? '-'}}</td>
+            <td>{{ $report->payment_status ?? '-'}}</td>
         </tr>
         @endforeach
     </table>
 </div>
-
+<script>
+function forceDownloadPDF() {
+    const url = "{{ route('report.pdf', ['bulan' => request('bulan', date('m')), 'tahun' => request('tahun', date('Y'))]) }}";
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = "Laporan_SIRFU_{{ $namaBulan }}_{{ $tahun }}.pdf";
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
 
 
 @endsection

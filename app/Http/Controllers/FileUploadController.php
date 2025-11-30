@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Report;
 use App\Models\UploadedFile;
 
 class FileUploadController extends Controller
@@ -15,20 +16,17 @@ class FileUploadController extends Controller
         'file' => 'required|mimes:csv,txt|max:2048',
     ]);
 
-    // Simpan file ke storage
     $path = $request->file('file')->store('uploads/reservasi');
 
-    // Catat ke database
+
     $uploaded = UploadedFile::create([
         'file_name' => $request->file('file')->getClientOriginalName(),
         'file_path' => $path,
         'status' => 'pending',
     ]);
 
-    // Proses isi CSV
     $this->processCsv(storage_path('app/' . $path));
 
-    // Update status file
     $uploaded->update(['status' => 'Completed']);
 
     return back()->with('success', 'CSV berhasil diupload.');
@@ -43,8 +41,8 @@ private function processCsv($filePath)
         $data = array_combine($header, $row);
 
         $reservation = Event::where('id', $data['id'])
-            ->where('status', 'Pending')
             ->first();
+
 
         if ($reservation) {
             $reservation->update([
@@ -54,11 +52,25 @@ private function processCsv($filePath)
                 'payment_status' => $data['payment_status'] ?? null,
                 'status' => 'Completed',
             ]);
-        }
+            $exists = Report::where('id_reservasi', $reservation->id)->exists();
 
+            if (!$exists && $reservation->status === 'Completed') {
+                Report::create([
+                    'id_reservasi'      => $reservation->id,
+                    'id_order'          => $reservation->id_order,
+                    'tanggal_reservasi' => $reservation->tanggal_reservasi,
+                    'ruangan'           => $reservation->ruangan,
+                    'waktu_mulai'       => $reservation->waktu_mulai,
+                    'waktu_akhir'       => $reservation->waktu_akhir,
+                    'tipe_reservasi'    => $reservation->tipe_reservasi ?? 'private',
+                    'status'            => 'Completed',
+                    'payment_status'    => $reservation->payment_status,
+                ]);
+            }
+
+        }
+        }
     }
 }
 
 
-
-}
