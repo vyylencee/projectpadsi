@@ -37,7 +37,7 @@ class Event extends Model
         return \Carbon\Carbon::parse($value)->format('H:i');
     }
 
-    public function getWaktuSelesaiAttribute($value)
+    public function getWaktuAkhirAttribute($value)
     {
         return \Carbon\Carbon::parse($value)->format('H:i');
     }

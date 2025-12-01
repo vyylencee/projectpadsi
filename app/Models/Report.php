@@ -40,7 +40,16 @@ class Report extends Model
 
     public $timestamps = false;
 
+    public function getWaktuMulaiAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('H:i');
+    }
 
+    public function getWaktuAkhirAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('H:i');
+    }
+    
     public function event()
     {
         return $this->belongsTo(Event::class, 'id_reservasi');

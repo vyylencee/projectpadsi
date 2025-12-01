@@ -38,7 +38,7 @@ Route::get('/events/search', [EventController::class, 'search'])->name('events.s
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.index');
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('events', EventController::class);
     Route::get('/report', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
     
@@ -46,5 +46,4 @@ Route::middleware(['auth'])->group(function () {
 
 Route::post('event-attendies', [EventController::class, 'eventAttendies'])->name('event-attendies');
 Route::post('/upload-csv', [FileUploadController::class, 'upload'])->name('upload.csv');
-Route::post('/report/filter', [App\Http\Controllers\ReportController::class, 'filter'])->name('report.filter');
 Route::get('/report/pdf', [App\Http\Controllers\ReportController::class, 'pdf'])->name('report.pdf');

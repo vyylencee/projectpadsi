@@ -37,7 +37,7 @@ class ReportController extends Controller
             'tahun' => 'required|integer|min:2000|max:' . date('Y')
         ]);
 
-        return redirect()->route('reports.index', [
+        return redirect()->route('report.index', [
             'bulan' => $request->bulan,
             'tahun' => $request->tahun
         ]);

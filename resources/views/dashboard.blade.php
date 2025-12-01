@@ -35,7 +35,7 @@
 
 
       <!-- Page Content -->
-      <div id="content" class="flex-grow-1 p-4" style="background-color: #D6EFFF !important; margin-left: 250px;">
+      <div id="content" class="grow p-4" style="background-color: #D6EFFF !important; margin-left: 250px;">
          @yield('content')
       </div>
    </div>

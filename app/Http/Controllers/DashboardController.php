@@ -8,15 +8,32 @@ class DashboardController extends Controller
 {
     public function index()
         {
-            $today = Carbon::today()->toDateString();
+            $today = Carbon::now()->format('Y-m-d');
 
-            $todayReservations = Event::whereDate('tanggal_reservasi', $today)
-                ->orderBy('waktu_mulai', 'asc')
-                ->get();
+            $totalHariIni = Event::whereDate('tanggal_reservasi', $today)->count();
 
-            return view('dashboard', compact('todayReservations', 'today'));
+            $onGoingHariIni = Event::whereDate('tanggal_reservasi', $today)
+                                    ->whereIn('status', ['On-Going', 'Pending'])
+                                    ->count();
+            $completedHariIni = Event::whereDate('tanggal_reservasi', $today)
+                                    ->where('status', 'Completed')
+                                    ->count();
+            $reservasiHariIni = Event::whereDate('tanggal_reservasi', $today)
+                                    ->orderBy('status', 'desc')
+                                    ->paginate(5);
+
+            $totalHariIni     = $totalHariIni     ?? 0;
+            $onGoingHariIni   = $onGoingHariIni   ?? 0;
+            $completedHariIni = $completedHariIni ?? 0;
+
+            return view('dashboard.index', [
+            'totalHariIni'     => $totalHariIni,
+            'onGoingHariIni'   => $onGoingHariIni,
+            'completedHariIni' => $completedHariIni,
+            'reservasiHariIni' => $reservasiHariIni,
+        ]);
         }
     
-
+    
     
 }
