@@ -43,8 +43,9 @@ class EventController extends Controller
 
     public function index()
     {
-        $data['events'] = Event::orderBy('id','asc')->paginate(5);
+        $data['events'] = Event::orderBy('tanggal_reservasi','desc')->paginate(5);
         return view('events.index', $data);
+        
     }
 
      
@@ -69,8 +70,8 @@ class EventController extends Controller
         $request->validate([
             'tanggal_reservasi' => 'required',
             'ruangan' => 'required',
-            'waktu_mulai' => 'required',
-            'waktu_akhir' => 'required',
+            'waktu_mulai' => 'required|date_format:H:i',
+            'waktu_akhir' => 'required|date_format:H:i|after:waktu_mulai',
             'kontak' => 'required',
             'tipe_reservasi' => 'required',
             'status' => 'required',
@@ -84,12 +85,23 @@ class EventController extends Controller
         $event->kontak = $request->kontak;
         $event->tipe_reservasi = $request->tipe_reservasi;
         $event->status = $request->status;
+
+        $conflict = Event::where('ruangan', $request->ruangan)
+            ->where('tanggal_reservasi', $request->tanggal_reservasi)
+            ->where(function($query) use ($request) {
+                $query->where('waktu_mulai', '<', $request->waktu_akhir)
+                    ->where('waktu_akhir', '>', $request->waktu_mulai);
+            })
+            ->exists();
+
+        if ($conflict) {
+            return back()->withErrors(['error' => 'Terdapat reservasi lain. Silahkan ubah tanggal/tempat/waktu.']);
+        }
+
         $event->save();
         return redirect()->route('events.index')
                         ->with('success','Event has been created successfully.');
     }
-
-
      
         public function search(Request $request)
     {
@@ -139,8 +151,8 @@ class EventController extends Controller
         $request->validate([
             'tanggal_reservasi' => 'required',
             'ruangan' => 'required',
-            'waktu_mulai' => 'required',
-            'waktu_akhir' => 'required',
+            'waktu_mulai' => 'required|date_format:H:i',
+            'waktu_akhir' => 'required|date_format:H:i|after:waktu_mulai',
             'kontak' => 'required',
             'tipe_reservasi' => 'required',
             'status' => 'required',
@@ -154,6 +166,19 @@ class EventController extends Controller
         $event->kontak = $request->kontak;
         $event->tipe_reservasi = $request->tipe_reservasi;
         $event->status = $request->status;
+
+        $conflict = Event::where('ruangan', $request->ruangan)
+            ->where('tanggal_reservasi', $request->tanggal_reservasi)
+            ->where(function($query) use ($request) {
+                $query->where('waktu_mulai', '<', $request->waktu_akhir)
+                    ->where('waktu_akhir', '>', $request->waktu_mulai);
+            })
+            ->exists();
+
+        if ($conflict) {
+            return back()->withErrors(['error' => 'Terdapat reservasi lain. Silahkan ubah tanggal/tempat/waktu.']);
+        }
+
         $event->save();
     
         return redirect()->route('events.index')

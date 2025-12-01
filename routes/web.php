@@ -27,8 +27,6 @@ Route::get('/', function () {
 });
 
 
-
-Route::get('dashboard.index', [AdminController::class, 'dashboard'])->name('dashboard'); 
 Route::get('login', [AdminController::class, 'index'])->name('login');
 Route::post('admin-login', [AdminController::class, 'adminLogin'])->name('login.custom'); 
 Route::get('registration', [AdminController::class, 'registration'])->name('register-user');
@@ -38,7 +36,7 @@ Route::get('/events/search', [EventController::class, 'search'])->name('events.s
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('events', EventController::class);
     Route::get('/report', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
     

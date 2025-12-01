@@ -56,8 +56,23 @@ class ReportController extends Controller
 
         $namaBulan = \Carbon\Carbon::create()->month($bulan)->translatedFormat('F');
 
+        $ruanganFav = Report::select('ruangan')
+                ->whereMonth('tanggal_reservasi', $bulan)
+                ->whereYear('tanggal_reservasi', $tahun)
+                ->groupBy('ruangan')
+                ->orderByRaw('COUNT(*) DESC')
+                ->first();
+
+        $waktuFavorit = Report::select('waktu_mulai')
+            ->whereMonth('tanggal_reservasi', $bulan)
+            ->whereYear('tanggal_reservasi', $tahun)
+            ->groupBy('waktu_mulai')
+            ->orderByRaw('COUNT(*) DESC')
+            ->first();
+        
+
         $pdf = Pdf::loadView('report.pdf', compact(
-            'reports', 'namaBulan', 'tahun'
+            'reports', 'namaBulan', 'tahun', 'ruanganFav', 'waktuFavorit'
         ))->setPaper('a4', 'landscape');
 
         $namaFile = "Laporan_SIRFU_{$namaBulan}_{$tahun}.pdf";

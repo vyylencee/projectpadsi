@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('main')
 @section('content')
 <div class="container mt-2">
    <div class="row">
@@ -50,7 +50,7 @@
          <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="d-flex form-group justify-content-between">
                <strong class="mt-2" style='width: 200px'>Waktu Mulai:</strong>
-               <input type="Time" value="{{ $event->waktu_mulai }}" name="waktu_mulai" class="form-control" placeholder="Waktu Mulai">
+               <input type="Time" value="{{ $event->waktu_mulai }}" name="waktu_mulai" class="form-control" placeholder="Waktu Mulai" min="10:00" max="01:30">
             </div>
          </div>
 
@@ -58,7 +58,7 @@
          <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="d-flex form-group justify-content-between">
                <strong class="mt-2" style='width: 200px'>Waktu Selesai:</strong>
-               <input type="Time" value="{{ $event->waktu_akhir }}" name="waktu_akhir" class="form-control" placeholder="Waktu Selesai">
+               <input type="Time" value="{{ $event->waktu_akhir }}" name="waktu_akhir" class="form-control" placeholder="Waktu Selesai" min="10:00" max="01:30">
             </div>
          </div>
 

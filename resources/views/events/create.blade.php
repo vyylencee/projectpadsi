@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('main')
 @section('content')
 
 <div class="container mt-2">
@@ -51,7 +51,7 @@
        <div class="col-xs-12 col-sm-12 col-md-12">
          <div class="d-flex form-group justify-content-between">
             <strong class="mt-2" style='width: 200px'>Waktu Mulai:</strong>
-            <input type="time" name="waktu_mulai" class="form-control">
+            <input type="time" name="waktu_mulai" class="form-control" min="10:00" max="01:30">
          </div>
       </div>
 
@@ -59,7 +59,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12">
          <div class="d-flex form-group justify-content-between">
             <strong class="mt-2" style='width: 200px'>Waktu Selesai:</strong>
-            <input type="time" name="waktu_akhir" class="form-control">
+            <input type="time" name="waktu_akhir" class="form-control" min="10:00" max="01:30">
          </div>
       </div>
 
@@ -99,6 +99,17 @@
             @enderror
          </div>
       </div>
+
+      @if ($errors->any())
+         <div class="text-danger">
+            <ul>
+                  @foreach ($errors->all() as $error)
+                     <li>{{ $error }}</li>
+                  @endforeach
+            </ul>
+         </div>
+      @endif
+
 
       <div class="col-12 mt-3">
          <div class="d-flex justify-content-end gap-2">

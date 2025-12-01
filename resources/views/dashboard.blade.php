@@ -1,59 +1,87 @@
-<!DOCTYPE html>
-<html>
-   <head>
-      <title>Admin Event Mangement</title>
-      <!-- Bootstrap CSS CDN -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-      <!-- Our Custom CSS -->
-      <link rel="stylesheet" href="{{ url('assets/css/style.css') }}">
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-   </head>
-   <body style="background-color: #D6EFFF !important;">
-      <div class="wrapper d-flex">
-      <!-- Sidebar -->
-      <nav class="navbar flex-column p-3" style="background-color: #42ADFF; font-family: 'Fredoka'; width: 250px; height: 100vh; position: fixed; left: 0; top: 0;">
-         <h2 class="mb-2 mt-2 text-white text-center">SIRFU</h2>
-         <ul class="nav navbar-nav w-100"
-            style="color: white; font-family: 'Gabarito', sans-serif; font-size: 16px; font-weight: 600; margin-top: 0;">
-            <li class="nav-item mb-2" style="border-bottom: 1px solid #fff;">
-               <a class="nav-link text-white" href="{{ route('dashboard') }}">Beranda</a>
-            </li>
-            <li class="nav-item mb-2" style="border-bottom: 1px solid #fff;">
-               <a class="nav-link text-white" href="{{ route('events.index') }}">Reservasi</a>
-            </li>
-            <li class="nav-item mb-2" style="border-bottom: 1px solid #fff;">
-               <a class="nav-link text-white" href="{{ route('report.index') }}">Laporan</a>
-            </li>
-            <li class="nav-item mb-2">
-               <a class="nav-link text-danger fw-bold" href="{{ route('signout') }}">Logout</a>
-            </li>
-         </ul>
-      </nav>
+@extends('main')
+@section('content')
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<div class="container d-flex justify-content-end">
+    <span class="navbar-text p-2 mb-3 mt-2" style="background-color: #ffffff; font: Gabarito; font-size: 16px; font-weight: 600; border-radius: 15px;">
+    <i class="bi bi-calendar2-week ml-2 mr-2"></i>
+    {{ \Carbon\Carbon::now()->translatedFormat('d/m/Y') }}</span>
+</div>
 
 
-      <!-- Page Content -->
-      <div id="content" class="grow p-4" style="background-color: #D6EFFF !important; margin-left: 250px;">
-         @yield('content')
-      </div>
-   </div>
-   
+<div class="container">
+    <h5 class="mb-2" style="font-weight: 600;">Dashboard</h5>
+    <div class="row justify-content-center" style="font-family: 'Fredoka', sans-serif; font-size: 14px; color: #000; ">
+            <div class="col-md-3 mx-4 ml-2 p-2 text-left" style="background-color: #fff; border-radius: 15px; color: black;">
+                <h6>Ruangan Ter-Favorit</h6>
+                <span>{{ $ruanganFav->ruangan_nama??'-'}}</span>
+            </div>
+
+            <div class="col-md-3 mx-4 ml-2 p-2 text-left" style="background-color: #fff; border-radius: 15px; color: black;">
+                <h6>Waktu Ter-Favorit</h6>
+                <span>{{ $waktuFavorit->waktu_mulai??'-' }}</span>
+            </div>
+
+            <div class="col-md-3 mx-4 ml-2 p-2 text-left" style="background-color: #fff; border-radius: 15px; color: black;">
+                <h6>Rata-Rata Durasi Reservasi</h6>
+                <span>{{ number_format($rerataDurasi, 1)??'-' }} menit</span>
+            </div>
+    </div>
+
+    <h5 class="mt-4" style="font-weight: 600;">Rekapitulasi Reservasi Hari Ini</h5>
+    <div class="mt-2 row justify-content-center" style="font-family: 'Fredoka', sans-serif; font-size: 14px; color: #000; ">
+            <div class="col-md-3 mx-4 ml-2 p-4 text-left" style="background-color: #fff; border-radius: 15px; color: black;">
+                <h6>Total Reservasi</h6>
+                <h2>{{ $totalHariIni }}</h2>
+                <span>Total Reservasi Hari Ini</span>
+            </div>
+
+            <div class="col-md-3 mx-4 ml-2 p-4 text-left" style="background-color: #fff; border-radius: 15px; color: black;">
+                <h6>Reservasi Aktif</h6>
+                <h2>{{ $onGoingHariIni }}</h2>
+                <span>Total reservasi yang akan datang</span>
+            </div>
+
+            <div class="col-md-3 mx-4 ml-2 p-4 text-left" style="background-color: #fff; border-radius: 15px; color: black;">
+                <h6>Reservasi Selesai</h6>
+                <h2>{{ $completedHariIni }}</h2>
+                <span>Total reservasi yang sudah selesai</span>
+            </div>
+    </div>
+
+    <span class="navbar-text mb-3 mt-3" style="font: Gabarito; font-size: 18px; font-weight: 600; font-color: white;">Daftar Reservasi Hari Ini!</span>
+
+    <table class="table table-bordered text-center" style="background-color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-size: 14px;">
+        <tr>
+            <th>ID Reservasi</th>
+            <th>Ruangan</th>
+            <th>Waktu Mulai</th>
+            <th>Waktu Berakhir</th>
+            <th>Status</th>
+        </tr>
+
+        @foreach ($reservasiHariIni as $event)
+        <tr>
+            <td>{{ $event->id ?? '-' }}</td>
+            <td>{{ $event->ruangan_nama ?? '-'}}</td>
+            <td>{{ $event->waktu_mulai ?? '-'}}</td>
+            <td>{{ $event->waktu_akhir ?? '-'}}</td>
+            <td><span class="px-2 py-1" 
+               style="border-radius:5px; background-color:
+                  {{ $event->status == 'Pending' ? '#ffde21' :
+                     ($event->status == 'On-Going' ? '#0082FC' :
+                     ($event->status == 'Completed' ? '#4ade80' : '#6B7280')) }}; 
+                     color: {{($event->status == 'On-Going' ? '#ffffff' : '#000000')}}" >
+            {{ $event->status }}
+         </span></td>
+        </tr>
+        @endforeach
+    </table>
+<div class="d-flex justify-content-center mt-3">
+    {{ $reservasiHariIni->links('pagination::bootstrap-4') }}
+</div>
+</div> 
 
 
-      <!-- jQuery CDN - Slim version (=without AJAX) -->
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-      <!-- Popper.JS -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-      <!-- Bootstrap JS -->
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-      <script type="text/javascript">
-         $('.date').datepicker({  
-         format: 'yyyy-mm-dd'
-         });  
-      </script> 
-   </body>
-</html>
+@endsection

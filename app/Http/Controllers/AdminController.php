@@ -26,7 +26,7 @@ class AdminController extends Controller
    
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials, $request->filled('remember'))) {$request->session()->regenerate();
-            return redirect()->intended('dashboard.index')
+            return redirect()->intended('dashboard')
                         ->with('success', 'Login Berhasil!');
         } else {
             return back()->withErrors([
@@ -36,15 +36,7 @@ class AdminController extends Controller
   
         return redirect("login")->withSuccess('Login details are not valid');
     }
-    
-    public function dashboard()
-    {
-        if(Auth::check()){
-            return view("dashboard.index");
-        }
-  
-        return redirect("login")->withSuccess('You are not allowed to access');
-    }
+
 
     
     public function signOut() {

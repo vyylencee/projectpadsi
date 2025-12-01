@@ -50,5 +50,21 @@
             @endforelse
         </tbody>
     </table>
+
+    <table>
+        <tr>
+            <th>Total Reservasi</th>
+            <th>Ruangan Favorit</th>
+            <th>Waktu Favorit</th>
+            <th>Rata-Rata Durasi Reservasi</th>
+        </tr>
+        <tr>
+            <td>{{ $totalReservasi ?? count($reports) }}</td>
+            <td>{{ $ruanganFav->ruangan_nama ?? '-' }}</td>
+            <td>{{ $waktuFavorit->waktu_mulai ?? '-' }}</td>
+            <td>{{ $rerataDurasi ?? '-' }} menit</td>
+        </tr>
+
+</table>
 </body>
 </html>
