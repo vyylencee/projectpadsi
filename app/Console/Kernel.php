@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
             ->where('status', 'On-Going')
             ->update(['status' => 'Pending']);
 
+
         \DB::table('events')
             ->where('tipe_reservasi', '!=', 'private')
             ->whereRaw("TIMESTAMP(tanggal_reservasi, waktu_akhir) < NOW()")

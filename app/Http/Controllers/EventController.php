@@ -233,22 +233,23 @@ class EventController extends Controller
 
     protected static function booted()
     {
-        static::updated(function ($event) {
+        static::saved(function ($event) {
             if (
-                $event->wasChanged('status') &&
-                $event->status === 'Completed' &&  // pastikan huruf besar sesuai
-                $event->report()->doesntExist()
+                $event->status === 'Completed'
             ) {
-                // Pastikan reservation_id ada
-                if (!$event->reservation_id) {
-                    Log::warning("Event ID {$event->id} tidak punya reservation_id");
+                $exists = Report::where('id_reservasi', $event->id)
+                            ->orWhere('id_order', $event->id_order)
+                            ->exists();
+
+                if ($exists) {
+                    Log::info("Report sudah ada untuk event #{$event->id}");
                     return;
                 }
 
                 Report::create([
                     'reservation_id'     => $event->reservation_id,
                     'id_order'           => $event->id_order,
-                    'tanggal_reservasi'  => $event->tanggal,
+                    'tanggal_reservasi'  => $event->tanggal_reservasi,
                     'ruangan'            => $event->ruangan,
                     'waktu_mulai'        => $event->waktu_mulai,
                     'waktu_akhir'        => $event->waktu_akhir,
@@ -256,8 +257,6 @@ class EventController extends Controller
                     'status'             => 'Completed',
                     'payment_status'     => $event->payment_status,
                 ]);
-
-                Log::info("Report otomatis dibuat untuk event #{$event->id}");
             }
         });
     }

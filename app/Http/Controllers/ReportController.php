@@ -8,7 +8,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
-    // 1. HALAMAN UTAMA + FILTER
     public function index(Request $request)
     {
         $bulan = $request->get('bulan', date('m'));
