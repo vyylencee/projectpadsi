@@ -54,6 +54,8 @@
          $('.date').datepicker({  
          format: 'yyyy-mm-dd'
          });  
-      </script> 
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
    </body>
 </html>
