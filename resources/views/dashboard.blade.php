@@ -2,7 +2,7 @@
 @section('content')
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <div class="container d-flex justify-content-end">
@@ -78,7 +78,21 @@
                 <option value="tahunan">Tahunan</option>
             </select>
 
-            <canvas id="miniChart" height="100"></canvas>
+            <div id="boxMingguan">
+                <h3>Reservasi 7 Hari Terakhir</h3>
+                <canvas id="chartHari"></canvas>
+            </div>
+
+            <div id="boxBulanan" style="display:none;">
+                <h3>Reservasi Per Bulan ({{ now()->year }})</h3>
+                <canvas id="chartBulan"></canvas>
+            </div>
+
+            <div id="boxTahunan" style="display:none;">
+                <h3>Reservasi Per Tahun</h3>
+                <canvas id="chartTahun"></canvas>
+            </div>
+
         </div>
     </div>
 </div>
@@ -115,6 +129,79 @@
 <div class="d-flex justify-content-center mt-3">
     {{ $reservasiHariIni->links('pagination::bootstrap-4') }}
 </div>
+<script>
+    // Line Chart Per Hari
+    const ctxHari = document.getElementById('chartHari').getContext('2d');
+    new Chart(ctxHari, {
+        type: 'line',
+        data: {
+            labels: @json($labelsHari),
+            datasets: [{
+                label: 'Total Reservasi per Hari',
+                data: @json($dataHari),
+                borderColor: 'blue',
+                backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        }
+    });
+
+
+    // Line Chart Per Bulan
+    const ctxBulan = document.getElementById('chartBulan').getContext('2d');
+    new Chart(ctxBulan, {
+        type: 'line',
+        data: {
+            labels: @json($labelsBulan),
+            datasets: [{
+                label: 'Total Reservasi per Bulan',
+                data: @json($dataBulan),
+                borderColor: 'green',
+                backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        }
+    });
+
+
+    // Line Chart Per Tahun
+    const ctxTahun = document.getElementById('chartTahun').getContext('2d');
+    new Chart(ctxTahun, {
+        type: 'line',
+        data: {
+            labels: @json($labelsTahun),
+            datasets: [{
+                label: 'Total Reservasi per Tahun',
+                data: @json($dataTahun),
+                borderColor: 'red',
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        }
+    });
+
+
+    document.getElementById('miniFilter').addEventListener('change', function() {
+    let val = this.value;
+
+    document.getElementById('boxMingguan').style.display = 'none';
+    document.getElementById('boxBulanan').style.display = 'none';
+    document.getElementById('boxTahunan').style.display = 'none';
+
+    if (val === 'mingguan') {
+        document.getElementById('boxMingguan').style.display = 'block';
+    } else if (val === 'bulanan') {
+        document.getElementById('boxBulanan').style.display = 'block';
+    } else if (val === 'tahunan') {
+        document.getElementById('boxTahunan').style.display = 'block';
+    }
+});
+
+</script>
+
 </div> 
 
 
