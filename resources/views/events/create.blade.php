@@ -76,8 +76,8 @@
          <div class="d-flex form-group justify-content-between">
             <strong class="mt-2" style='width: 200px'>Tipe Reservasi</strong>
             <select class="form-control" name="tipe_reservasi">
-               <option value="private">Non-Private</option>
-               <option value="non-private">Private</option>
+               <option value="non-private">Non-Private</option>
+               <option value="private">Private</option>
             </select>
             @error('event_type')
             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

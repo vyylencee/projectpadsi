@@ -22,6 +22,11 @@ class Event extends Model
         'teras'        => 'Teras Outdoor Lantai 2',
     ];
 
+    public static $tipeReservasiOptions = [
+        'non-private'       => 'non-private',
+        'private'        => 'private',
+    ];
+
     public function getRuanganNamaAttribute()
     {
         return self::$ruanganOptions[$this->ruangan] ?? $this->ruangan;

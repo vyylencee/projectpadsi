@@ -12,22 +12,28 @@
 
 <div class="container">
     <h5 class="mb-2" style="font-weight: 600;">Dashboard</h5>
-    <div class="row justify-content-center" style="font-family: 'Fredoka', sans-serif; font-size: 14px; color: #000; ">
-            <div class="col-md-3 mx-4 ml-2 p-2 text-left" style="background-color: #fff; border-radius: 15px; color: black;">
-                <h6>Ruangan Ter-Favorit</h6>
-                <span>{{ $ruanganFav->ruangan_nama??'-'}}</span>
-            </div>
+    <div class="p-3" 
+     style="background-color:#fff; border-radius:16px; font-family:'Fredoka', sans-serif; font-size:14px; color:#000; box-shadow:0 2px 6px rgba(0,0,0,0.08);">
 
-            <div class="col-md-3 mx-4 ml-2 p-2 text-left" style="background-color: #fff; border-radius: 15px; color: black;">
-                <h6>Waktu Ter-Favorit</h6>
-                <span>{{ $waktuFavorit->waktu_mulai??'-' }}</span>
-            </div>
-
-            <div class="col-md-3 mx-4 ml-2 p-2 text-left" style="background-color: #fff; border-radius: 15px; color: black;">
-                <h6>Rata-Rata Durasi Reservasi</h6>
-                <span>{{ number_format($rerataDurasi, 1)??'-' }} menit</span>
-            </div>
+    <div class="mb-3">
+        <h6 class="mb-1" style="font-weight:600;">Ruangan Ter-Favorit</h6>
+        <span class="text-muted">{{ $ruanganFav->ruangan_nama ?? '-' }}</span>
     </div>
+    <hr class="my-2">
+
+    <div class="mb-3">
+        <h6 class="mb-1" style="font-weight:600;">Waktu Ter-Favorit</h6>
+        <span class="text-muted">{{ $waktuFavorit->waktu_mulai ?? '-' }}</span>
+    </div>
+    <hr class="my-2">
+
+    <div class="mb-1">
+        <h6 class="mb-1" style="font-weight:600;">Rata-Rata Durasi Reservasi</h6>
+        <span class="text-muted">
+            {{ number_format($rerataDurasi, 1) ?? '-' }} menit
+        </span>
+    </div>
+</div>
 
     <h5 class="mt-4" style="font-weight: 600;">Rekapitulasi Reservasi Hari Ini</h5>
     <div class="mt-2 row justify-content-center" style="font-family: 'Fredoka', sans-serif; font-size: 14px; color: #000; ">

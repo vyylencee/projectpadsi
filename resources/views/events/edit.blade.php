@@ -21,7 +21,7 @@
          <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="mt-2 d-flex form-group justify-content-between">
                <strong class="mt-2" style='width: 200px'>Tanggal Reservasi:</strong>
-               <input class="date form-control" type="date" value="{{ $event->tanggal_reservasi }}" name="tanggal_reservasi" placeholder="Tanggal Reservasi" min="{{ date('Y-m-d') }}"   required>
+               <input class="date form-control" type="date" value="{{ $event->tanggal_reservasi }}" name="tanggal_reservasi" placeholder="Tanggal Reservasi"   required>
                @error('date')
                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                @enderror

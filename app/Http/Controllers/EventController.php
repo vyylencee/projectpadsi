@@ -167,18 +167,6 @@ class EventController extends Controller
         $event->tipe_reservasi = $request->tipe_reservasi;
         $event->status = $request->status;
 
-        $conflict = Event::where('ruangan', $request->ruangan)
-            ->where('tanggal_reservasi', $request->tanggal_reservasi)
-            ->where(function($query) use ($request) {
-                $query->where('waktu_mulai', '<', $request->waktu_akhir)
-                    ->where('waktu_akhir', '>', $request->waktu_mulai);
-            })
-            ->exists();
-
-        if ($conflict) {
-            return back()->withErrors(['error' => 'Terdapat reservasi lain. Silahkan ubah tanggal/tempat/waktu.']);
-        }
-
         $event->save();
     
         return redirect()->route('events.index')
@@ -231,6 +219,8 @@ class EventController extends Controller
         return $this->hasOne(Report::class, 'id_reservasi', 'id');
     }
 
+
+
     protected static function booted()
     {
         static::saved(function ($event) {
@@ -246,16 +236,16 @@ class EventController extends Controller
                     return;
                 }
 
-                Report::create([
-                    'reservation_id'     => $event->reservation_id,
-                    'id_order'           => $event->id_order,
+                Report::insert([
+                    'id_reservasi'     => $event->id,
+                    'id_order'           => $event->id_order ?? '-',
                     'tanggal_reservasi'  => $event->tanggal_reservasi,
                     'ruangan'            => $event->ruangan,
                     'waktu_mulai'        => $event->waktu_mulai,
                     'waktu_akhir'        => $event->waktu_akhir,
                     'tipe_reservasi'     => $event->tipe_reservasi ?? 'private',
                     'status'             => 'Completed',
-                    'payment_status'     => $event->payment_status,
+                    'payment_status'     => $event->payment_status ?? '-',
                 ]);
             }
         });
