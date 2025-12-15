@@ -27,6 +27,7 @@ $(document).ready(function(){
 });
 </script>
 
+
 <div class="container mt-2">
 <div class="row">
    <div class="col-lg-12 margin-tb">
@@ -108,6 +109,9 @@ $(document).ready(function(){
    </tr>
    @endforeach
 </table>
+@error('file')
+    <div class="alert alert-danger">{{ $message }}</div>
+@enderror
 <div class="d-flex justify-content-center mt-3">
     {{ $events->links('pagination::bootstrap-4') }}
 </div>

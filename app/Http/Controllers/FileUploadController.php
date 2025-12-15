@@ -17,13 +17,22 @@ class FileUploadController extends Controller
     ]);
 
     $path = $request->file('file')->store('uploads/reservasi');
-
+    $filePath = storage_path('app/' . $path);
 
     $uploaded = UploadedFile::create([
         'file_name' => $request->file('file')->getClientOriginalName(),
         'file_path' => $path,
         'status' => 'pending',
     ]);
+
+    $csv = array_map('str_getcsv', file($filePath));
+    $header = array_map('trim', array_shift($csv));
+
+    if (!in_array('id', $header)) {
+        return back()->withErrors([
+            'file' => 'File CSV wajib memiliki kolom ID Reservasi'
+        ]);
+    }
 
     $this->processCsv(storage_path('app/' . $path));
 
@@ -42,7 +51,6 @@ private function processCsv($filePath)
 
         $reservation = Event::where('id', $data['id'])
             ->first();
-
 
         if ($reservation) {
             $reservation->update([
