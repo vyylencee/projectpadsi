@@ -100,7 +100,7 @@ class EventController extends Controller
 
         $event->save();
         return redirect()->route('events.index')
-                        ->with('success','Event has been created successfully.');
+                        ->with('success','Reservasi berhasil ditambahkan.');
     }
      
         public function search(Request $request)
@@ -170,7 +170,7 @@ class EventController extends Controller
         $event->save();
     
         return redirect()->route('events.index')
-                        ->with('success','Event updated successfully');
+                        ->with('success','Reservasi berhasil diubah.');
     }
     
     /**
@@ -183,7 +183,7 @@ class EventController extends Controller
     {
         $event->delete();
         return redirect()->route('events.index')
-                        ->with('success','Event has been deleted successfully');
+                        ->with('success','Reservasi berhasil dihapus.');
     }
     // Event Show
     public function event()
