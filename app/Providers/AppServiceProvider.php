@@ -31,5 +31,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Event::observe(EventObserver::class);
+        Carbon::setLocale('id');
     }
+
+
 }
