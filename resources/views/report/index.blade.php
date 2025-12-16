@@ -66,7 +66,7 @@
 
         @foreach ($reports as $report)
         <tr>
-            <td>{{ $report->id_laporan ?? '-' }}</td>
+            <td>{{ $report->idRep_format ?? '-' }}</td>
             <td>{{ $report->id_reservasi ?? '-' }}</td>
             <td>{{ $report->id_order }}</td>
             <td>{{ $report->tanggal_reservasi ?? '-'}}</td>

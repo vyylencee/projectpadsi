@@ -185,9 +185,19 @@ class EventController extends Controller
         return redirect()->route('events.index')
                         ->with('success','Reservasi berhasil dihapus.');
     }
-    // Event Show
+
     public function event()
     {
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth   = Carbon::now()->endOfMonth();
+
+        $events = Event::whereBetween('tanggal_reservasi', [
+            $startOfMonth,
+            $endOfMonth
+        ])->orderBy('tanggal_reservasi')
+        ->get();
+
+        $data['events'] = $events;
         $data['events'] = Event::orderBy('id','desc')->where('status','1')->paginate(6);
         return view('event', $data);
     }

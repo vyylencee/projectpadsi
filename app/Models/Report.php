@@ -54,4 +54,21 @@ class Report extends Model
     {
         return $this->belongsTo(Event::class, 'id_reservasi');
     }
+
+    protected $appends = ['idRep_format'];
+
+    public function getFormattedReportIdAttribute()
+    {
+        $date = Carbon::parse($this->created_at);
+
+        $bulan = strtoupper($date->translatedFormat('M'));
+        $tahun = $date->format('y');
+
+        $urutan = self::whereYear('created_at', $date->year)
+            ->whereMonth('created_at', $date->month)
+            ->where('id', '<=', $this->id)
+            ->count();
+
+        return 'LAP-' . $bulan . '-' . $tahun . '-' . str_pad($urutan, 2, '0', STR_PAD_LEFT);
+    }
 }
