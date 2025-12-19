@@ -167,6 +167,18 @@ class EventController extends Controller
         $event->tipe_reservasi = $request->tipe_reservasi;
         $event->status = $request->status;
 
+        $conflict = Event::where('ruangan', $request->ruangan)
+            ->where('tanggal_reservasi', $request->tanggal_reservasi)
+            ->where(function($query) use ($request) {
+                $query->where('waktu_mulai', '<', $request->waktu_akhir)
+                    ->where('waktu_akhir', '>', $request->waktu_mulai);
+            })
+            ->exists();
+
+        if ($conflict) {
+            return back()->withErrors(['error' => 'Terdapat reservasi lain. Silahkan ubah tanggal/tempat/waktu.']);
+        }
+
         $event->save();
     
         return redirect()->route('events.index')
@@ -188,16 +200,7 @@ class EventController extends Controller
 
     public function event()
     {
-        $startOfMonth = Carbon::now()->startOfMonth();
-        $endOfMonth   = Carbon::now()->endOfMonth();
 
-        $events = Event::whereBetween('tanggal_reservasi', [
-            $startOfMonth,
-            $endOfMonth
-        ])->orderBy('tanggal_reservasi')
-        ->get();
-
-        $data['events'] = $events;
         $data['events'] = Event::orderBy('id','desc')->where('status','1')->paginate(6);
         return view('event', $data);
     }

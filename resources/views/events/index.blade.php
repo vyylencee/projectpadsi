@@ -82,7 +82,7 @@ $(document).ready(function(){
    </tr>
    @foreach ($events as $event)
    <tr>
-      <td>{{ $event->idRes_format }}</td>
+      <td>{{ $event->id }}</td>
       <td>{{ $event->tanggal_reservasi }}</td>
       <td>{{ $event->ruangan_nama }}</td>
       <td>{{ $event->waktu_mulai }}</td>

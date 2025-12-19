@@ -6,23 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     use HasFactory;
-
-    protected $appends = ['idRes_format'];
-
-    public function getFormattedReservationIdAttribute()
-    {
-        $date = Carbon::parse($this->created_at);
-
-        $bulan = strtoupper($date->translatedFormat('M'));
-        $tahun = $date->format('y');
-
-        $urutan = self::whereYear('created_at', $date->year)
-            ->whereMonth('created_at', $date->month)
-            ->where('id', '<=', $this->id)
-            ->count();
-
-        return 'RES-' . $bulan . '-' . $tahun . '-' . str_pad($urutan, 2, '0', STR_PAD_LEFT);
-    }
     
     public static $statusOptions = [
         'On-Going'       => 'On-Going',
