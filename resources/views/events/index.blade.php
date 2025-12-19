@@ -8,24 +8,28 @@
 
 
 <script>
-$(document).ready(function(){
-    $('#search').on('keyup', function(){
-        let query = $(this).val();
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search');
 
-        $.ajax({
-            url: "{{ route('events.search') }}",
-            type: "GET",
-            data: { search: query },
-            success: function(data){
-                $('#table-data').html(data);
-            },
-            error: function(xhr){
-                console.log("Terjadi error: ", xhr.responseText);
+    searchInput.addEventListener('keyup', () => {
+        const query = searchInput.value;
+
+        fetch(`{{ route('events.search') }}?search=${query}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
             }
+        })
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('table-data').innerHTML = data;
+        })
+        .catch(err => {
+            console.error('Terjadi error:', err);
         });
     });
 });
 </script>
+
 
 
 <div class="container mt-2">
