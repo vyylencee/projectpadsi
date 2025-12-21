@@ -96,6 +96,16 @@
             </div>
          </div>
 
+         @if ($errors->any())
+            <div class="text-danger">
+               <ul>
+                     @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                     @endforeach
+               </ul>
+            </div>
+         @endif
+
          <div class="col-12 mt-3">
          <div class="d-flex justify-content-end gap-2">
             <a class="btn btn-secondary mr-3" href="{{ route('events.index') }}">Batal</a>
